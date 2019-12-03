@@ -1,0 +1,58 @@
+# This is an example goreleaser.yaml file with some sane defaults.
+# Make sure to check the documentation at http://goreleaser.com
+before:
+  hooks:
+    - go mod download
+
+builds:
+  - id: darwin
+    goos:
+      - darwin
+    goarch:
+      - amd64
+  - id: linux-windows
+    goos:
+      - linux
+      - windows
+    goarch:
+      - arm
+      - amd64
+      - 386
+    goarm:
+      # show our love for ARM, why not
+      - 7
+
+archives:
+  # being dramatic by separating the linux-windows and darwin
+  # builds to get a different naming style... but I'm okay with that
+  - id: linux-windows
+    builds:
+      - linux-windows
+    format: binary
+    name_template: "{{ .ProjectName }}-{{ .Os }}-{{ .Arch }}"
+  - id: darwin
+    builds:
+      - darwin
+    format: binary
+    name_template: "{{ .ProjectName }}-{{ .Os }}"
+
+checksum:
+  name_template: "checksums.txt"
+
+snapshot:
+  # show our love for semver *.build conventions
+  name_template: "{{ .Tag }}-build.{{ .ShortCommit }}"
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+
+release:
+  # nearly all of these are the defaults, just being explicit about them
+  github:
+    owner: aegershman
+    name: cf-service-reverse-lookup-plugin
+  name_template: "{{ .Tag }}"

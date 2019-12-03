@@ -1,0 +1,23 @@
+version: "2"
+
+tasks:
+  build:
+    cmds:
+      - go mod tidy
+      - go generate ./...
+      - goreleaser --snapshot --skip-publish --rm-dist
+
+  install:
+    cmds:
+      - task: build
+      - cf install-plugin dist/darwin_darwin_amd64/cf-service-reverse-lookup-plugin -f
+
+  uninstall:
+    cmds:
+      - cf uninstall-plugin cf-service-reverse-lookup-plugin
+
+  test:
+    cmds:
+      # assuming logged into pws
+      - task: install
+      - cf service-reverse-lookup -s 67e9e04e-8cc5-4744-8a5a-eb0a2d21c7ee
