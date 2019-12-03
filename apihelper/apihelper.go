@@ -2,7 +2,7 @@ package apihelper
 
 import (
 	"code.cloudfoundry.org/cli/plugin"
-	"github.com/aegershman/cf-report-usage-plugin/models"
+	"github.com/aegershman/cf-service-reverse-lookup-plugin/models"
 )
 
 // CFAPIHelper wraps cf curl results
