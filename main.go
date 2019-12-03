@@ -5,6 +5,7 @@ import (
 
 	"code.cloudfoundry.org/cli/plugin"
 	"github.com/aegershman/cf-service-reverse-lookup-plugin/apihelper"
+	"github.com/aegershman/cf-service-reverse-lookup-plugin/models"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -60,12 +61,26 @@ func (cmd *ServiceReverseLookupCmd) ServiceReverseLookupCommand(args []string) {
 	}
 	log.SetLevel(logLevel)
 
-	result, err := cmd.apiHelper.GetServiceInstance(serviceGUIDFlag)
+	serviceInstance, err := cmd.apiHelper.GetServiceInstance(serviceGUIDFlag)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	log.Infoln(result)
+	serviceSpace, err := cmd.apiHelper.GetServiceInstance(serviceInstance.SpaceURL)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	serviceOrganization, err := cmd.apiHelper.GetServiceInstance(serviceInstance.SpaceURL)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	serviceReport := models.ServiceReport{
+		Service:      serviceInstance,
+		Space:        serviceSpace,
+		Organization: serviceOrganization,
+	}
 
 }
 
