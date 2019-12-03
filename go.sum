@@ -1,5 +1,7 @@
 code.cloudfoundry.org/cli v6.47.2+incompatible h1:3cRSSNIZPJ0LTOWwejP38tBYuQB92TmWnEtkK2ySth4=
 code.cloudfoundry.org/cli v6.47.2+incompatible/go.mod h1:e4d+EpbwevNhyTZKybrLlyTvpH+W22vMsmdmcTxs/Fo=
+github.com/cloudfoundry/cli v6.47.2+incompatible h1:2w0elhbXGp2ROGoGTYr/3RhC1cYUlfNM1K8joOedyOc=
+github.com/cloudfoundry/cli v6.47.2+incompatible/go.mod h1:uUVSLzSuwWNhis5+tY5XRUp66kLbHhBktg8b3ZfcJHI=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/fsnotify/fsnotify v1.4.7 h1:IXs+QLmnXW2CcXuY+8Mzv/fWEsPGWxqefPtCP5CnV9I=
