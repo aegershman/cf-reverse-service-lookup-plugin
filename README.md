@@ -52,6 +52,21 @@ cf service-reverse-lookup --service-guid xyz --format table
 +----------+-------+-----------------+
 ```
 
+## installation
+
+If you want to try it out, install it directly from [the github releases tab as follows](https://github.com/aegershman/cf-service-reverse-lookup-plugin/releases):
+
+```sh
+# osx 64bit
+cf install-plugin -f https://github.com/aegershman/cf-service-reverse-lookup-plugin/releases/download/0.1.0/cf-service-reverse-lookup-plugin-darwin
+
+# linux 64bit (32bit and ARM6 also available)
+cf install-plugin -f https://github.com/aegershman/cf-service-reverse-lookup-plugin/releases/download/0.1.0/cf-service-reverse-lookup-plugin-amd64
+
+# windows 64bit (32bit also available)
+cf install-plugin -f https://github.com/aegershman/cf-service-reverse-lookup-plugin/releases/download/0.1.0/cf-service-reverse-lookup-plugin-windows-amd64.exe
+```
+
 ## feedback welcome
 
 Ideas, use-cases, opinions on architecture, doc, etc. all welcome
