@@ -18,9 +18,13 @@ cf service-reverse-lookup --service-guid 67e9e04e-8cc5-4744-8a5a-eb0a2d21c7ee
 
 # passing BOSH's default 'service-instance_' prefix is acceptable, too
 cf service-reverse-lookup --service-guid service-instance_67e9e04e-8cc5-4744-8a5a-eb0a2d21c7ee
+
+# optionally, different presentation formats can be specified
+cf service-reverse-lookup --service-guid xyz --format json (default)
+cf service-reverse-lookup --service-guid xyz --format table
 ```
 
-currently there is only a `json` format:
+`--format json`:
 
 ```json
 {
@@ -36,6 +40,16 @@ currently there is only a `json` format:
     "organization_guid": "a297887a-f58f-4266-9ba2-186563eec13a"
   }
 }
+```
+
+`--format table`:
+
+```txt
++----------+-------+-----------------+
+|   ORG    | SPACE |     SERVICE     |
++----------+-------+-----------------+
+| gershman | dev   | tiny-turtle-sql |
++----------+-------+-----------------+
 ```
 
 ## feedback welcome
