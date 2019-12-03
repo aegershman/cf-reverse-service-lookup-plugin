@@ -22,7 +22,7 @@ func (cmd *ServiceReverseLookupCmd) GetMetadata() plugin.PluginMetadata {
 		Version: plugin.VersionType{
 			Major: 0,
 			Minor: 0,
-			Build: 2,
+			Build: 3,
 		},
 		Commands: []plugin.Command{
 			{
