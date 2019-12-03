@@ -15,32 +15,6 @@ type ServiceReverseLookupCmd struct {
 	apiHelper apihelper.CFAPIHelper
 }
 
-// GetMetadata -
-func (cmd *ServiceReverseLookupCmd) GetMetadata() plugin.PluginMetadata {
-	return plugin.PluginMetadata{
-		Name: "cf-service-reverse-lookup-plugin",
-		Version: plugin.VersionType{
-			Major: 0,
-			Minor: 0,
-			Build: 3,
-		},
-		Commands: []plugin.Command{
-			{
-				Name:     "service-reverse-lookup",
-				HelpText: "perform reverse lookups against service instance GUIDs",
-				UsageDetails: plugin.Usage{
-					Usage: "cf service-reverse-lookup --service-guid service_instance-xyzabc]",
-					Options: map[string]string{
-						"service-guid": "GUID of service instance to reverse-lookup. Can be of form 'service_instance-xyzguid123' or just 'xyzguid123'",
-						"format":       "format to present (options: json) (default: json)",
-						"log-level":    "(options: info,debug,trace) (default: info)",
-					},
-				},
-			},
-		},
-	}
-}
-
 // ServiceReverseLookupCommand -
 func (cmd *ServiceReverseLookupCmd) ServiceReverseLookupCommand(args []string) {
 	var (
@@ -100,6 +74,32 @@ func (cmd *ServiceReverseLookupCmd) Run(cli plugin.CliConnection, args []string)
 	if args[0] == "service-reverse-lookup" {
 		cmd.apiHelper = apihelper.New(cli)
 		cmd.ServiceReverseLookupCommand(args)
+	}
+}
+
+// GetMetadata -
+func (cmd *ServiceReverseLookupCmd) GetMetadata() plugin.PluginMetadata {
+	return plugin.PluginMetadata{
+		Name: "cf-service-reverse-lookup-plugin",
+		Version: plugin.VersionType{
+			Major: 0,
+			Minor: 0,
+			Build: 3,
+		},
+		Commands: []plugin.Command{
+			{
+				Name:     "service-reverse-lookup",
+				HelpText: "perform reverse lookups against service instance GUIDs",
+				UsageDetails: plugin.Usage{
+					Usage: "cf service-reverse-lookup --service-guid service_instance-xyzabc]",
+					Options: map[string]string{
+						"service-guid": "GUID of service instance to reverse-lookup. Can be of form 'service_instance-xyzguid123' or just 'xyzguid123'",
+						"format":       "format to present (options: json) (default: json)",
+						"log-level":    "(options: info,debug,trace) (default: info)",
+					},
+				},
+			},
+		},
 	}
 }
 
