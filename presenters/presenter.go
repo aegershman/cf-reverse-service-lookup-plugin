@@ -4,8 +4,8 @@ import "github.com/aegershman/cf-service-reverse-lookup-plugin/models"
 
 // Presenter -
 type Presenter struct {
-	ServiceReport models.ServiceReport `json:"service_report"`
-	Format        string               `json:"format"`
+	ServiceReport models.ServiceReport
+	Format        string
 }
 
 // Render -

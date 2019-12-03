@@ -8,7 +8,7 @@ import (
 )
 
 func (p *Presenter) asJSON() {
-	j, err := json.Marshal(p)
+	j, err := json.Marshal(p.ServiceReport)
 	if err != nil {
 		log.Fatalln(err)
 	}
