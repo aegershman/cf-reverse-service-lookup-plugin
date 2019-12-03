@@ -1,6 +1,9 @@
 package presenters
 
-import "github.com/aegershman/cf-service-reverse-lookup-plugin/models"
+import (
+	"github.com/aegershman/cf-service-reverse-lookup-plugin/models"
+	log "github.com/sirupsen/logrus"
+)
 
 // Presenter -
 type Presenter struct {
@@ -14,6 +17,7 @@ func (p *Presenter) Render() {
 	case "json":
 		p.asJSON()
 	default:
+		log.Debugf("unknown format [%s], using default\n", p.Format)
 		p.asJSON()
 	}
 }
