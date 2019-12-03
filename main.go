@@ -6,6 +6,7 @@ import (
 	"code.cloudfoundry.org/cli/plugin"
 	"github.com/aegershman/cf-service-reverse-lookup-plugin/apihelper"
 	"github.com/aegershman/cf-service-reverse-lookup-plugin/models"
+	"github.com/aegershman/cf-service-reverse-lookup-plugin/presenters"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -66,12 +67,12 @@ func (cmd *ServiceReverseLookupCmd) ServiceReverseLookupCommand(args []string) {
 		log.Fatalln(err)
 	}
 
-	serviceSpace, err := cmd.apiHelper.GetServiceInstance(serviceInstance.SpaceURL)
+	serviceSpace, err := cmd.apiHelper.GetSpace(serviceInstance.SpaceURL)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	serviceOrganization, err := cmd.apiHelper.GetServiceInstance(serviceInstance.SpaceURL)
+	serviceOrganization, err := cmd.apiHelper.GetOrganization(serviceSpace.OrganizationURL)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -81,6 +82,13 @@ func (cmd *ServiceReverseLookupCmd) ServiceReverseLookupCommand(args []string) {
 		Space:        serviceSpace,
 		Organization: serviceOrganization,
 	}
+
+	presenter := presenters.Presenter{
+		ServiceReport: serviceReport,
+		Format:        "",
+	}
+
+	presenter.Render()
 
 }
 
