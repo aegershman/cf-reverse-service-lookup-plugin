@@ -74,14 +74,6 @@ func (cmd *ServiceReverseLookupCmd) ServiceReverseLookupCommand(args []string) {
 
 }
 
-// Run -
-func (cmd *ServiceReverseLookupCmd) Run(cli plugin.CliConnection, args []string) {
-	if args[0] == "service-reverse-lookup" {
-		cmd.apiHelper = apihelper.New(cli)
-		cmd.ServiceReverseLookupCommand(args)
-	}
-}
-
 // GetMetadata -
 func (cmd *ServiceReverseLookupCmd) GetMetadata() plugin.PluginMetadata {
 	return plugin.PluginMetadata{
@@ -106,6 +98,14 @@ func (cmd *ServiceReverseLookupCmd) GetMetadata() plugin.PluginMetadata {
 				},
 			},
 		},
+	}
+}
+
+// Run -
+func (cmd *ServiceReverseLookupCmd) Run(cli plugin.CliConnection, args []string) {
+	if args[0] == "service-reverse-lookup" {
+		cmd.apiHelper = apihelper.New(cli)
+		cmd.ServiceReverseLookupCommand(args)
 	}
 }
 
