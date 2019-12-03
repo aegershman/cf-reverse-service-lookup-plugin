@@ -19,4 +19,4 @@ tasks:
   test:
     cmds:
       - task: install
-      - cf service-reverse-lookup 7aeb6851-91e1-4a3f-b897-8f68fa4e8ca0
+      - cf service-reverse-lookup -s 7aeb6851-91e1-4a3f-b897-8f68fa4e8ca0
