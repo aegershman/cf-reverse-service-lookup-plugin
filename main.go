@@ -22,17 +22,18 @@ func (cmd *ServiceReverseLookupCmd) GetMetadata() plugin.PluginMetadata {
 		Version: plugin.VersionType{
 			Major: 0,
 			Minor: 0,
-			Build: 1,
+			Build: 2,
 		},
 		Commands: []plugin.Command{
 			{
 				Name:     "service-reverse-lookup",
 				HelpText: "perform reverse lookups against service instance GUIDs",
 				UsageDetails: plugin.Usage{
-					Usage: "cf service-reverse-lookup [-s serviceGuid]",
+					Usage: "cf service-reverse-lookup --service-guid service_instance-xyzabc]",
 					Options: map[string]string{
-						"s":         "serviceGuid to reverse-lookup. Can be of form 'service_instance-xyzguid123' or just 'xyzguid123'",
-						"log-level": "(options: info,debug,trace) (default: info)",
+						"service-guid": "GUID of service instance to reverse-lookup. Can be of form 'service_instance-xyzguid123' or just 'xyzguid123'",
+						"format":       "format to present (options: json) (default: json)",
+						"log-level":    "(options: info,debug,trace) (default: info)",
 					},
 				},
 			},
@@ -43,12 +44,14 @@ func (cmd *ServiceReverseLookupCmd) GetMetadata() plugin.PluginMetadata {
 // ServiceReverseLookupCommand -
 func (cmd *ServiceReverseLookupCmd) ServiceReverseLookupCommand(args []string) {
 	var (
-		serviceGUIDFlag string
+		formatFlag      string
 		logLevelFlag    string
+		serviceGUIDFlag string
 	)
 
 	flagss := flag.NewFlagSet(args[0], flag.ContinueOnError)
-	flagss.StringVar(&serviceGUIDFlag, "s", "", "")
+	flagss.StringVar(&serviceGUIDFlag, "service-guid", "", "")
+	flagss.StringVar(&formatFlag, "format", "json", "")
 	flagss.StringVar(&logLevelFlag, "log-level", "info", "")
 
 	err := flagss.Parse(args[1:])
@@ -85,7 +88,7 @@ func (cmd *ServiceReverseLookupCmd) ServiceReverseLookupCommand(args []string) {
 
 	presenter := presenters.Presenter{
 		ServiceReport: serviceReport,
-		Format:        "",
+		Format:        formatFlag,
 	}
 
 	presenter.Render()
