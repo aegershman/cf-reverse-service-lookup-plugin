@@ -60,6 +60,13 @@ func (cmd *ServiceReverseLookupCmd) ServiceReverseLookupCommand(args []string) {
 	}
 	log.SetLevel(logLevel)
 
+	result, err := cmd.apiHelper.GetServiceInstance(serviceGUIDFlag)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	log.Infoln(result)
+
 }
 
 // Run -

@@ -6,14 +6,17 @@ import (
 	"strings"
 
 	"github.com/cloudfoundry/cli/plugin"
+	log "github.com/sirupsen/logrus"
 )
 
 // Curl calls cf-curl and returns the resulting json
 func Curl(cli plugin.CliConnection, path string) (map[string]interface{}, error) {
+	log.Traceln(path)
 	output, err := cli.CliCommandWithoutTerminalOutput("curl", path)
 	if nil != err {
 		return nil, err
 	}
+	log.Traceln(output)
 	return parseOutput(output)
 }
 
