@@ -2,5 +2,5 @@ package models
 
 // Organization -
 type Organization struct {
-	Name string
+	Name string `json:"name"`
 }
