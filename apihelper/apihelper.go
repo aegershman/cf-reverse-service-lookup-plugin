@@ -1,6 +1,7 @@
 package apihelper
 
 import (
+	"errors"
 	"fmt"
 
 	"code.cloudfoundry.org/cli/plugin"
@@ -35,12 +36,15 @@ func (api *APIHelper) GetServiceInstanceByGUID(serviceGUID string) (models.Servi
 	}
 	log.Traceln(summaryJSON)
 
-	entity := summaryJSON["entity"].(map[string]interface{})
+	if entity, ok := summaryJSON["entity"].(map[string]interface{}); ok {
+		return models.Service{
+			Name:      entity["name"].(string),
+			SpaceGUID: entity["space_guid"].(string),
+		}, nil
+	}
 
-	return models.Service{
-		Name:      entity["name"].(string),
-		SpaceGUID: entity["space_guid"].(string),
-	}, nil
+	return models.Service{}, errors.New(fmt.Sprintln(summaryJSON))
+
 }
 
 // GetSpaceByGUID -
@@ -52,12 +56,15 @@ func (api *APIHelper) GetSpaceByGUID(spaceGUID string) (models.Space, error) {
 	}
 	log.Traceln(summaryJSON)
 
-	entity := summaryJSON["entity"].(map[string]interface{})
+	if entity, ok := summaryJSON["entity"].(map[string]interface{}); ok {
+		return models.Space{
+			Name:             entity["name"].(string),
+			OrganizationGUID: entity["organization_guid"].(string),
+		}, nil
+	}
 
-	return models.Space{
-		Name:             entity["name"].(string),
-		OrganizationGUID: entity["organization_guid"].(string),
-	}, nil
+	return models.Space{}, errors.New(fmt.Sprintln(summaryJSON))
+
 }
 
 // GetOrganizationByGUID -
@@ -69,9 +76,12 @@ func (api *APIHelper) GetOrganizationByGUID(organizationGUID string) (models.Org
 	}
 	log.Traceln(summaryJSON)
 
-	entity := summaryJSON["entity"].(map[string]interface{})
+	if entity, ok := summaryJSON["entity"].(map[string]interface{}); ok {
+		return models.Organization{
+			Name: entity["name"].(string),
+		}, nil
+	}
 
-	return models.Organization{
-		Name: entity["name"].(string),
-	}, nil
+	return models.Organization{}, errors.New(fmt.Sprintln(summaryJSON))
+
 }
