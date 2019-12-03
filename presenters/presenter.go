@@ -14,6 +14,8 @@ type Presenter struct {
 // Render -
 func (p *Presenter) Render() {
 	switch p.Format {
+	case "table":
+		p.asTable()
 	case "json":
 		p.asJSON()
 	default:
