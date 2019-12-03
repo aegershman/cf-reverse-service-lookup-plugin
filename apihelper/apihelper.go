@@ -11,9 +11,9 @@ import (
 
 // CFAPIHelper wraps cf-curl results, acts as a cf-curl client
 type CFAPIHelper interface {
-	GetServiceInstance(string) (models.Service, error)
-	GetSpace(string) (models.Space, error)
-	GetOrganization(string) (models.Organization, error)
+	GetServiceInstanceByGUID(string) (models.Service, error)
+	GetSpaceByGUID(string) (models.Space, error)
+	GetOrganizationByGUID(string) (models.Organization, error)
 }
 
 // APIHelper -
@@ -26,8 +26,8 @@ func New(cli plugin.CliConnection) CFAPIHelper {
 	return &APIHelper{cli}
 }
 
-// GetServiceInstance -
-func (api *APIHelper) GetServiceInstance(serviceGUID string) (models.Service, error) {
+// GetServiceInstanceByGUID -
+func (api *APIHelper) GetServiceInstanceByGUID(serviceGUID string) (models.Service, error) {
 	path := fmt.Sprintf("/v2/service_instances/%s", serviceGUID)
 	summaryJSON, err := cfcurl.Curl(api.cli, path)
 	if err != nil {
@@ -38,13 +38,13 @@ func (api *APIHelper) GetServiceInstance(serviceGUID string) (models.Service, er
 	entity := summaryJSON["entity"].(map[string]interface{})
 
 	return models.Service{
-		Name:     entity["name"].(string),
-		SpaceURL: entity["space_url"].(string),
+		Name:      entity["name"].(string),
+		SpaceGUID: entity["space_guid"].(string),
 	}, nil
 }
 
-// GetSpace -
-func (api *APIHelper) GetSpace(spaceGUID string) (models.Space, error) {
+// GetSpaceByGUID -
+func (api *APIHelper) GetSpaceByGUID(spaceGUID string) (models.Space, error) {
 	path := fmt.Sprintf("/v2/spaces/%s", spaceGUID)
 	summaryJSON, err := cfcurl.Curl(api.cli, path)
 	if err != nil {
@@ -55,13 +55,13 @@ func (api *APIHelper) GetSpace(spaceGUID string) (models.Space, error) {
 	entity := summaryJSON["entity"].(map[string]interface{})
 
 	return models.Space{
-		Name:            entity["name"].(string),
-		OrganizationURL: entity["organization_url"].(string),
+		Name:             entity["name"].(string),
+		OrganizationGUID: entity["organization_guid"].(string),
 	}, nil
 }
 
-// GetOrganization -
-func (api *APIHelper) GetOrganization(organizationGUID string) (models.Organization, error) {
+// GetOrganizationByGUID -
+func (api *APIHelper) GetOrganizationByGUID(organizationGUID string) (models.Organization, error) {
 	path := fmt.Sprintf("/v2/organizations/%s", organizationGUID)
 	summaryJSON, err := cfcurl.Curl(api.cli, path)
 	if err != nil {

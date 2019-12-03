@@ -62,17 +62,17 @@ func (cmd *ServiceReverseLookupCmd) ServiceReverseLookupCommand(args []string) {
 	}
 	log.SetLevel(logLevel)
 
-	serviceInstance, err := cmd.apiHelper.GetServiceInstance(serviceGUIDFlag)
+	serviceInstance, err := cmd.apiHelper.GetServiceInstanceByGUID(serviceGUIDFlag)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	serviceSpace, err := cmd.apiHelper.GetSpace(serviceInstance.SpaceURL)
+	serviceSpace, err := cmd.apiHelper.GetSpaceByGUID(serviceInstance.SpaceGUID)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	serviceOrganization, err := cmd.apiHelper.GetOrganization(serviceSpace.OrganizationURL)
+	serviceOrganization, err := cmd.apiHelper.GetOrganizationByGUID(serviceSpace.OrganizationGUID)
 	if err != nil {
 		log.Fatalln(err)
 	}
