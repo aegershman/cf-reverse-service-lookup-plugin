@@ -6,7 +6,7 @@ import (
 	"github.com/aegershman/cf-service-reverse-lookup-plugin/models"
 )
 
-// CFAPIHelper wraps cf curl results
+// CFAPIHelper wraps cf-curl results, acts as a cf-curl client
 type CFAPIHelper interface {
 	GetServiceInstance(string) (models.Service, error)
 }

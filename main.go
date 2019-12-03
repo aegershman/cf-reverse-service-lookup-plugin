@@ -4,11 +4,14 @@ import (
 	"flag"
 
 	"code.cloudfoundry.org/cli/plugin"
+	"github.com/aegershman/cf-service-reverse-lookup-plugin/apihelper"
 	log "github.com/sirupsen/logrus"
 )
 
 // ServiceReverseLookupCmd -
-type ServiceReverseLookupCmd struct{}
+type ServiceReverseLookupCmd struct {
+	apiHelper apihelper.CFAPIHelper
+}
 
 // GetMetadata -
 func (cmd *ServiceReverseLookupCmd) GetMetadata() plugin.PluginMetadata {
@@ -62,6 +65,7 @@ func (cmd *ServiceReverseLookupCmd) ServiceReverseLookupCommand(args []string) {
 // Run -
 func (cmd *ServiceReverseLookupCmd) Run(cli plugin.CliConnection, args []string) {
 	if args[0] == "service-reverse-lookup" {
+		cmd.apiHelper = apihelper.New(cli)
 		cmd.ServiceReverseLookupCommand(args)
 	}
 }
