@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"strings"
 
 	"code.cloudfoundry.org/cli/plugin"
 	"github.com/aegershman/cf-service-reverse-lookup-plugin/apihelper"
@@ -21,12 +22,14 @@ func (cmd *ServiceReverseLookupCmd) ServiceReverseLookupCommand(args []string) {
 		formatFlag      string
 		logLevelFlag    string
 		serviceGUIDFlag string
+		trimPrefixFlag  string
 	)
 
 	flagss := flag.NewFlagSet(args[0], flag.ContinueOnError)
-	flagss.StringVar(&serviceGUIDFlag, "service-guid", "", "")
 	flagss.StringVar(&formatFlag, "format", "json", "")
 	flagss.StringVar(&logLevelFlag, "log-level", "info", "")
+	flagss.StringVar(&serviceGUIDFlag, "service-guid", "", "")
+	flagss.StringVar(&trimPrefixFlag, "trim-prefix", "service-instance_", "")
 
 	err := flagss.Parse(args[1:])
 	if err != nil {
@@ -39,7 +42,9 @@ func (cmd *ServiceReverseLookupCmd) ServiceReverseLookupCommand(args []string) {
 	}
 	log.SetLevel(logLevel)
 
-	serviceInstance, err := cmd.apiHelper.GetServiceInstanceByGUID(serviceGUIDFlag)
+	trimmedServiceGUID := strings.TrimPrefix(serviceGUIDFlag, trimPrefixFlag)
+
+	serviceInstance, err := cmd.apiHelper.GetServiceInstanceByGUID(trimmedServiceGUID)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -93,9 +98,10 @@ func (cmd *ServiceReverseLookupCmd) GetMetadata() plugin.PluginMetadata {
 				UsageDetails: plugin.Usage{
 					Usage: "cf service-reverse-lookup --service-guid service_instance-xyzabc]",
 					Options: map[string]string{
-						"service-guid": "GUID of service instance to reverse-lookup. Can be of form 'service_instance-xyzguid123' or just 'xyzguid123'",
 						"format":       "format to present (options: json) (default: json)",
 						"log-level":    "(options: info,debug,trace) (default: info)",
+						"service-guid": "GUID of service instance to reverse-lookup. Can be of form 'service_instance-xyzguid123' or just 'xyzguid123'",
+						"trim-prefix":  "if your services are prefixed with something besides BOSH defaults, change this to be the string prefix before the service GUID... also, if you have that use-case, definitely let me know, I'm intrigued. (default: service_instance-)",
 					},
 				},
 			},
