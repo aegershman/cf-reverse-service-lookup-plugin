@@ -18,5 +18,6 @@ tasks:
 
   test:
     cmds:
+      # assuming logged into pws
       - task: install
-      - cf service-reverse-lookup -s 7aeb6851-91e1-4a3f-b897-8f68fa4e8ca0
+      - cf service-reverse-lookup -s 67e9e04e-8cc5-4744-8a5a-eb0a2d21c7ee
