@@ -43,7 +43,7 @@ func (cmd *ServiceReverseLookupCmd) ServiceReverseLookupCommand(args []string) {
 	)
 
 	flagss := flag.NewFlagSet(args[0], flag.ContinueOnError)
-	flagss.StringVar(&serviceGUIDFlag, "serviceGuid", "", "")
+	flagss.StringVar(&serviceGUIDFlag, "s", "", "")
 	flagss.StringVar(&logLevelFlag, "log-level", "info", "")
 
 	err := flagss.Parse(args[1:])
