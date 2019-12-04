@@ -5,9 +5,9 @@ import (
 	"strings"
 
 	"code.cloudfoundry.org/cli/plugin"
-	"github.com/aegershman/cf-service-reverse-lookup-plugin/apihelper"
-	"github.com/aegershman/cf-service-reverse-lookup-plugin/models"
-	"github.com/aegershman/cf-service-reverse-lookup-plugin/presenters"
+	"github.com/aegershman/cf-reverse-service-lookup-plugin/apihelper"
+	"github.com/aegershman/cf-reverse-service-lookup-plugin/models"
+	"github.com/aegershman/cf-reverse-service-lookup-plugin/presenters"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -77,18 +77,18 @@ func (cmd *ServiceReverseLookupCmd) ServiceReverseLookupCommand(args []string) {
 // GetMetadata -
 func (cmd *ServiceReverseLookupCmd) GetMetadata() plugin.PluginMetadata {
 	return plugin.PluginMetadata{
-		Name: "cf-service-reverse-lookup-plugin",
+		Name: "cf-reverse-service-lookup-plugin",
 		Version: plugin.VersionType{
 			Major: 0,
-			Minor: 1,
+			Minor: 2,
 			Build: 0,
 		},
 		Commands: []plugin.Command{
 			{
-				Name:     "service-reverse-lookup",
+				Name:     "reverse-service-lookup",
 				HelpText: "perform reverse lookups against service instance GUIDs",
 				UsageDetails: plugin.Usage{
-					Usage: "cf service-reverse-lookup --service-guid service_instance-xyzabc]",
+					Usage: "cf reverse-service-lookup --service-guid service_instance-xyzabc]",
 					Options: map[string]string{
 						"format":       "format to present (options: table,json) (default: json)",
 						"log-level":    "(options: info,debug,trace) (default: info)",
@@ -103,7 +103,7 @@ func (cmd *ServiceReverseLookupCmd) GetMetadata() plugin.PluginMetadata {
 
 // Run -
 func (cmd *ServiceReverseLookupCmd) Run(cli plugin.CliConnection, args []string) {
-	if args[0] == "service-reverse-lookup" {
+	if args[0] == "reverse-service-lookup" {
 		cmd.apiHelper = apihelper.New(cli)
 		cmd.ServiceReverseLookupCommand(args)
 	}

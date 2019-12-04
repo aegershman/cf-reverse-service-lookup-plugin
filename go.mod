@@ -1,4 +1,4 @@
-module github.com/aegershman/cf-service-reverse-lookup-plugin
+module github.com/aegershman/cf-reverse-service-lookup-plugin
 
 go 1.13
 
