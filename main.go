@@ -11,13 +11,13 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-// ServiceReverseLookupCmd -
-type ServiceReverseLookupCmd struct {
+// ReverseServiceLookupCmd -
+type ReverseServiceLookupCmd struct {
 	apiHelper apihelper.CFAPIHelper
 }
 
-// ServiceReverseLookupCommand -
-func (cmd *ServiceReverseLookupCmd) ServiceReverseLookupCommand(args []string) {
+// ReverseServiceLookupCommand -
+func (cmd *ReverseServiceLookupCmd) ReverseServiceLookupCommand(args []string) {
 	var (
 		formatFlag      string
 		logLevelFlag    string
@@ -75,7 +75,7 @@ func (cmd *ServiceReverseLookupCmd) ServiceReverseLookupCommand(args []string) {
 }
 
 // GetMetadata -
-func (cmd *ServiceReverseLookupCmd) GetMetadata() plugin.PluginMetadata {
+func (cmd *ReverseServiceLookupCmd) GetMetadata() plugin.PluginMetadata {
 	return plugin.PluginMetadata{
 		Name: "cf-reverse-service-lookup-plugin",
 		Version: plugin.VersionType{
@@ -102,13 +102,13 @@ func (cmd *ServiceReverseLookupCmd) GetMetadata() plugin.PluginMetadata {
 }
 
 // Run -
-func (cmd *ServiceReverseLookupCmd) Run(cli plugin.CliConnection, args []string) {
+func (cmd *ReverseServiceLookupCmd) Run(cli plugin.CliConnection, args []string) {
 	if args[0] == "reverse-service-lookup" {
 		cmd.apiHelper = apihelper.New(cli)
-		cmd.ServiceReverseLookupCommand(args)
+		cmd.ReverseServiceLookupCommand(args)
 	}
 }
 
 func main() {
-	plugin.Start(new(ServiceReverseLookupCmd))
+	plugin.Start(new(ReverseServiceLookupCmd))
 }
