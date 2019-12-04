@@ -38,6 +38,7 @@ archives:
 
 checksum:
   name_template: "checksums.txt"
+  algorithm: sha1
 
 snapshot:
   # show our love for semver *.build conventions
