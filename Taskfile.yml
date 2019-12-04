@@ -10,15 +10,15 @@ tasks:
   install:
     cmds:
       - task: build
-      - cf install-plugin dist/darwin_darwin_amd64/cf-service-reverse-lookup-plugin -f
+      - cf install-plugin dist/darwin_darwin_amd64/cf-reverse-service-lookup-plugin -f
 
   uninstall:
     cmds:
-      - cf uninstall-plugin cf-service-reverse-lookup-plugin
+      - cf uninstall-plugin cf-reverse-service-lookup-plugin
 
   test:
     cmds:
       # assuming logged into pws
       - task: install
-      - cf service-reverse-lookup --service-guid 67e9e04e-8cc5-4744-8a5a-eb0a2d21c7ee
-      - cf service-reverse-lookup --service-guid service-instance_67e9e04e-8cc5-4744-8a5a-eb0a2d21c7ee --format table
+      - cf reverse-service-lookup --service-guid 67e9e04e-8cc5-4744-8a5a-eb0a2d21c7ee
+      - cf reverse-service-lookup --service-guid service-instance_67e9e04e-8cc5-4744-8a5a-eb0a2d21c7ee --format table

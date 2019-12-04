@@ -5,8 +5,8 @@ import (
 	"fmt"
 
 	"code.cloudfoundry.org/cli/plugin"
-	"github.com/aegershman/cf-service-reverse-lookup-plugin/cfcurl"
-	"github.com/aegershman/cf-service-reverse-lookup-plugin/models"
+	"github.com/aegershman/cf-reverse-service-lookup-plugin/cfcurl"
+	"github.com/aegershman/cf-reverse-service-lookup-plugin/models"
 	log "github.com/sirupsen/logrus"
 )
 

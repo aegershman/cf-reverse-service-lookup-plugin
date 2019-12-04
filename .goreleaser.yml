@@ -54,5 +54,5 @@ release:
   # nearly all of these are the defaults, just being explicit about them
   github:
     owner: aegershman
-    name: cf-service-reverse-lookup-plugin
+    name: cf-reverse-service-lookup-plugin
   name_template: "{{ .Tag }}"
