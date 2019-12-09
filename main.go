@@ -80,7 +80,7 @@ func (cmd *ReverseServiceLookupCmd) GetMetadata() plugin.PluginMetadata {
 		Name: "cf-reverse-service-lookup-plugin",
 		Version: plugin.VersionType{
 			Major: 0,
-			Minor: 2,
+			Minor: 3,
 			Build: 0,
 		},
 		Commands: []plugin.Command{
