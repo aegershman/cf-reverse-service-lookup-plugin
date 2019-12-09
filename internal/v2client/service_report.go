@@ -1,4 +1,4 @@
-package models
+package v2client
 
 // ServiceReport -
 type ServiceReport struct {
