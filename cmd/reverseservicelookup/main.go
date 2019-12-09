@@ -5,9 +5,9 @@ import (
 	"strings"
 
 	"code.cloudfoundry.org/cli/plugin"
-	"github.com/aegershman/cf-reverse-service-lookup-plugin/apihelper"
-	"github.com/aegershman/cf-reverse-service-lookup-plugin/models"
-	"github.com/aegershman/cf-reverse-service-lookup-plugin/presenters"
+	"github.com/aegershman/cf-reverse-service-lookup-plugin/internal/apihelper"
+	"github.com/aegershman/cf-reverse-service-lookup-plugin/internal/models"
+	"github.com/aegershman/cf-reverse-service-lookup-plugin/internal/presenters"
 	log "github.com/sirupsen/logrus"
 )
 
