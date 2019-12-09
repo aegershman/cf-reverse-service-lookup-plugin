@@ -5,19 +5,14 @@ import (
 	"strings"
 
 	"code.cloudfoundry.org/cli/plugin"
-	"github.com/aegershman/cf-reverse-service-lookup-plugin/internal/apihelper"
-	"github.com/aegershman/cf-reverse-service-lookup-plugin/internal/models"
-	"github.com/aegershman/cf-reverse-service-lookup-plugin/internal/presenters"
+	"github.com/aegershman/cf-reverse-service-lookup-plugin/internal/v2client"
 	log "github.com/sirupsen/logrus"
 )
 
-// ReverseServiceLookupCmd -
-type ReverseServiceLookupCmd struct {
-	apiHelper apihelper.CFAPIHelper
-}
+type reverseServiceLookupCmd struct{}
 
 // ReverseServiceLookupCommand -
-func (cmd *ReverseServiceLookupCmd) ReverseServiceLookupCommand(args []string) {
+func (cmd *reverseServiceLookupCmd) ReverseServiceLookupCommand(cli plugin.CliConnection, args []string) {
 	var (
 		formatFlag      string
 		logLevelFlag    string
@@ -44,28 +39,30 @@ func (cmd *ReverseServiceLookupCmd) ReverseServiceLookupCommand(args []string) {
 
 	trimmedServiceGUID := strings.TrimPrefix(serviceGUIDFlag, trimPrefixFlag)
 
-	serviceInstance, err := cmd.apiHelper.GetServiceInstanceByGUID(trimmedServiceGUID)
+	cf := v2client.NewClient(cli)
+
+	serviceInstance, err := cf.Services.GetServiceInstanceByGUID(trimmedServiceGUID)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	serviceSpace, err := cmd.apiHelper.GetSpaceByGUID(serviceInstance.SpaceGUID)
+	serviceSpace, err := cf.Spaces.GetSpaceByGUID(serviceInstance.SpaceGUID)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	serviceOrganization, err := cmd.apiHelper.GetOrganizationByGUID(serviceSpace.OrganizationGUID)
+	serviceOrganization, err := cf.Orgs.GetOrganizationByGUID(serviceSpace.OrganizationGUID)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	serviceReport := models.ServiceReport{
+	serviceReport := v2client.ServiceReport{
 		Service:      serviceInstance,
 		Space:        serviceSpace,
 		Organization: serviceOrganization,
 	}
 
-	presenter := presenters.Presenter{
+	presenter := v2client.Presenter{
 		ServiceReport: serviceReport,
 		Format:        formatFlag,
 	}
@@ -75,7 +72,7 @@ func (cmd *ReverseServiceLookupCmd) ReverseServiceLookupCommand(args []string) {
 }
 
 // GetMetadata -
-func (cmd *ReverseServiceLookupCmd) GetMetadata() plugin.PluginMetadata {
+func (cmd *reverseServiceLookupCmd) GetMetadata() plugin.PluginMetadata {
 	return plugin.PluginMetadata{
 		Name: "cf-reverse-service-lookup-plugin",
 		Version: plugin.VersionType{
@@ -102,13 +99,12 @@ func (cmd *ReverseServiceLookupCmd) GetMetadata() plugin.PluginMetadata {
 }
 
 // Run -
-func (cmd *ReverseServiceLookupCmd) Run(cli plugin.CliConnection, args []string) {
+func (cmd *reverseServiceLookupCmd) Run(cli plugin.CliConnection, args []string) {
 	if args[0] == "reverse-service-lookup" {
-		cmd.apiHelper = apihelper.New(cli)
-		cmd.ReverseServiceLookupCommand(args)
+		cmd.ReverseServiceLookupCommand(cli, args)
 	}
 }
 
 func main() {
-	plugin.Start(new(ReverseServiceLookupCmd))
+	plugin.Start(new(reverseServiceLookupCmd))
 }
