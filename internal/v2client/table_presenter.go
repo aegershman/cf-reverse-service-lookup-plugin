@@ -1,4 +1,4 @@
-package presenters
+package v2client
 
 import (
 	"os"

@@ -1,13 +1,12 @@
-package presenters
+package v2client
 
 import (
-	"github.com/aegershman/cf-reverse-service-lookup-plugin/models"
 	log "github.com/sirupsen/logrus"
 )
 
 // Presenter -
 type Presenter struct {
-	ServiceReport models.ServiceReport
+	ServiceReport ServiceReport
 	Format        string
 }
 
