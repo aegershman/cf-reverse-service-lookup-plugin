@@ -82,14 +82,14 @@ func (cmd *reverseServiceLookupCmd) GetMetadata() plugin.PluginMetadata {
 		},
 		Commands: []plugin.Command{
 			{
-				Name:     "reverse-service-lookup",
-				HelpText: "perform reverse lookups against service instance GUIDs",
+				Name:     "rsl",
+				HelpText: "reverse-service-lookup (rsl) against service_instance GUIDs",
 				UsageDetails: plugin.Usage{
-					Usage: "cf rsl [-s service_instance-xyzabc]",
+					Usage: "cf rsl [-s service_instance-xyzabc...]",
 					Options: map[string]string{
 						"format":      "format to present (options: table,json) (default: json)",
 						"log-level":   "(options: info,debug,trace) (default: info)",
-						"s":           "GUID of service instance to reverse-lookup. Can be of form 'service_instance-xyzguid123' or just 'xyzguid123'",
+						"s":           "service_instance-GUID to look up. Can be of form 'service_instance-xyzguid123' or just 'xyzguid123'",
 						"trim-prefix": "if your services are prefixed with something besides BOSH defaults, change this to be the string prefix before the service GUID... also, if you have that use-case, definitely let me know, I'm intrigued. (default: service_instance-)",
 					},
 				},
