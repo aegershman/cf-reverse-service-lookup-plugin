@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"strings"
 
 	"code.cloudfoundry.org/cli/plugin"
@@ -11,24 +12,54 @@ import (
 
 type reverseServiceLookupCmd struct{}
 
-// ReverseServiceLookupCommand -
-func (cmd *reverseServiceLookupCmd) ReverseServiceLookupCommand(cli plugin.CliConnection, args []string) {
+type serviceGUIDFlag struct {
+	guids []string
+}
+
+func (s *serviceGUIDFlag) String() string {
+	return fmt.Sprint(s.guids)
+}
+
+func (s *serviceGUIDFlag) Set(value string) error {
+	s.guids = append(s.guids, value)
+	return nil
+}
+
+type formatFlag struct {
+	formats []string
+}
+
+func (f *formatFlag) String() string {
+	return fmt.Sprint(f.formats)
+}
+
+func (f *formatFlag) Set(value string) error {
+	f.formats = append(f.formats, value)
+	return nil
+}
+
+// reverseServiceLookupCommand is the "real" main entrypoint into program execution
+func (cmd *reverseServiceLookupCmd) reverseServiceLookupCommand(cli plugin.CliConnection, args []string) {
 	var (
-		formatFlag      string
+		formatFlag      formatFlag
 		logLevelFlag    string
-		serviceGUIDFlag string
+		serviceGUIDFlag serviceGUIDFlag
 		trimPrefixFlag  string
 	)
 
 	flagss := flag.NewFlagSet(args[0], flag.ContinueOnError)
-	flagss.StringVar(&formatFlag, "format", "json", "")
+	flagss.Var(&formatFlag, "format", "")
 	flagss.StringVar(&logLevelFlag, "log-level", "info", "")
-	flagss.StringVar(&serviceGUIDFlag, "service-guid", "", "")
+	flagss.Var(&serviceGUIDFlag, "s", "")
 	flagss.StringVar(&trimPrefixFlag, "trim-prefix", "service-instance_", "")
 
 	err := flagss.Parse(args[1:])
 	if err != nil {
 		log.Fatalln(err)
+	}
+
+	if len(serviceGUIDFlag.guids) == 0 {
+		log.Fatalln("please provide at least one -s service-instance_GUID")
 	}
 
 	logLevel, err := log.ParseLevel(logLevelFlag)
@@ -37,38 +68,45 @@ func (cmd *reverseServiceLookupCmd) ReverseServiceLookupCommand(cli plugin.CliCo
 	}
 	log.SetLevel(logLevel)
 
-	trimmedServiceGUID := strings.TrimPrefix(serviceGUIDFlag, trimPrefixFlag)
-
-	cf := v2client.NewClient(cli)
-
-	serviceInstance, err := cf.Services.GetServiceInstanceByGUID(trimmedServiceGUID)
+	cf, err := v2client.NewClient(cli)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	serviceSpace, err := cf.Spaces.GetSpaceByGUID(serviceInstance.SpaceGUID)
-	if err != nil {
-		log.Fatalln(err)
-	}
+	var serviceReports []v2client.ServiceReport
+	for _, service := range serviceGUIDFlag.guids {
+		trimmedServiceGUID := strings.TrimPrefix(service, trimPrefixFlag)
 
-	serviceOrganization, err := cf.Orgs.GetOrganizationByGUID(serviceSpace.OrganizationGUID)
-	if err != nil {
-		log.Fatalln(err)
-	}
+		serviceInstance, err := cf.Services.GetServiceInstanceByGUID(trimmedServiceGUID)
+		if err != nil {
+			log.Fatalln(err)
+		}
 
-	serviceReport := v2client.ServiceReport{
-		Service:      serviceInstance,
-		Space:        serviceSpace,
-		Organization: serviceOrganization,
+		serviceSpace, err := cf.Spaces.GetSpaceByGUID(serviceInstance.SpaceGUID)
+		if err != nil {
+			log.Fatalln(err)
+		}
+
+		serviceOrganization, err := cf.Orgs.GetOrganizationByGUID(serviceSpace.OrganizationGUID)
+		if err != nil {
+			log.Fatalln(err)
+		}
+
+		serviceReport := v2client.ServiceReport{
+			Service:      serviceInstance,
+			Space:        serviceSpace,
+			Organization: serviceOrganization,
+		}
+
+		serviceReports = append(serviceReports, serviceReport)
 	}
 
 	presenter := v2client.Presenter{
-		ServiceReport: serviceReport,
-		Format:        formatFlag,
+		ServiceReport: serviceReports,
+		Format:        formatFlag.formats,
 	}
 
 	presenter.Render()
-
 }
 
 // GetMetadata -
@@ -77,20 +115,20 @@ func (cmd *reverseServiceLookupCmd) GetMetadata() plugin.PluginMetadata {
 		Name: "cf-reverse-service-lookup-plugin",
 		Version: plugin.VersionType{
 			Major: 0,
-			Minor: 3,
+			Minor: 4,
 			Build: 0,
 		},
 		Commands: []plugin.Command{
 			{
-				Name:     "reverse-service-lookup",
-				HelpText: "perform reverse lookups against service instance GUIDs",
+				Name:     "rsl",
+				HelpText: "reverse-service-lookup (rsl) against service_instance GUIDs",
 				UsageDetails: plugin.Usage{
-					Usage: "cf reverse-service-lookup --service-guid service_instance-xyzabc]",
+					Usage: "cf rsl [-s service_instance-xyzabc...]",
 					Options: map[string]string{
-						"format":       "format to present (options: table,json) (default: json)",
-						"log-level":    "(options: info,debug,trace) (default: info)",
-						"service-guid": "GUID of service instance to reverse-lookup. Can be of form 'service_instance-xyzguid123' or just 'xyzguid123'",
-						"trim-prefix":  "if your services are prefixed with something besides BOSH defaults, change this to be the string prefix before the service GUID... also, if you have that use-case, definitely let me know, I'm intrigued. (default: service_instance-)",
+						"format":      "format to present (options: table,json) (default: json)",
+						"log-level":   "(options: info,debug,trace) (default: info)",
+						"s":           "service_instance-GUID to look up. Can be of form 'service_instance-xyzguid123' or just 'xyzguid123'",
+						"trim-prefix": "if your services are prefixed with something besides BOSH defaults, change this to be the string prefix before the service GUID... also, if you have that use-case, definitely let me know, I'm intrigued. (default: service_instance-)",
 					},
 				},
 			},
@@ -100,8 +138,12 @@ func (cmd *reverseServiceLookupCmd) GetMetadata() plugin.PluginMetadata {
 
 // Run -
 func (cmd *reverseServiceLookupCmd) Run(cli plugin.CliConnection, args []string) {
-	if args[0] == "reverse-service-lookup" {
-		cmd.ReverseServiceLookupCommand(cli, args)
+	switch args[0] {
+	case "rsl":
+		cmd.reverseServiceLookupCommand(cli, args)
+	default:
+		log.Debugln("did you know plugin commands can still get ran when uninstalling a plugin? interesting, right?")
+		return
 	}
 }
 

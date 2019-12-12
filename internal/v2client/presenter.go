@@ -6,19 +6,24 @@ import (
 
 // Presenter -
 type Presenter struct {
-	ServiceReport ServiceReport
-	Format        string
+	ServiceReport []ServiceReport
+	Format        []string
 }
 
 // Render -
 func (p *Presenter) Render() {
-	switch p.Format {
-	case "table":
-		p.asTable()
-	case "json":
+	if len(p.Format) == 0 {
 		p.asJSON()
-	default:
-		log.Debugf("unknown format [%s], using default\n", p.Format)
-		p.asJSON()
+	}
+
+	for _, f := range p.Format {
+		switch f {
+		case "table":
+			p.asTable()
+		case "json":
+			p.asJSON()
+		default:
+			log.Debugf("unknown format [%s], using default\n", p.Format)
+		}
 	}
 }

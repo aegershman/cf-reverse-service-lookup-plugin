@@ -1,10 +1,5 @@
 package v2client
 
-import (
-	"errors"
-	"fmt"
-)
-
 // Service -
 type Service struct {
 	Name      string `json:"name"`
@@ -16,19 +11,13 @@ type ServicesService service
 
 // GetServiceInstanceByGUID -
 func (s *ServicesService) GetServiceInstanceByGUID(serviceGUID string) (Service, error) {
-	path := fmt.Sprintf("/v2/service_instances/%s", serviceGUID)
-	summaryJSON, err := s.client.Curl(path)
+	service, err := s.client.cfc.ServiceInstanceByGuid(serviceGUID)
 	if err != nil {
 		return Service{}, err
 	}
 
-	if entity, ok := summaryJSON["entity"].(map[string]interface{}); ok {
-		return Service{
-			Name:      entity["name"].(string),
-			SpaceGUID: entity["space_guid"].(string),
-		}, nil
-	}
-
-	return Service{}, errors.New(fmt.Sprintln(summaryJSON))
-
+	return Service{
+		Name:      service.Name,
+		SpaceGUID: service.SpaceGuid,
+	}, nil
 }

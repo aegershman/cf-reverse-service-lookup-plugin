@@ -1,3 +1,4 @@
+---
 version: "2"
 
 tasks:
@@ -18,8 +19,7 @@ tasks:
 
   test:
     cmds:
-      # assuming logged into pws
       - task: install
-      - cf reverse-service-lookup --service-guid 67e9e04e-8cc5-4744-8a5a-eb0a2d21c7ee
-      - cf reverse-service-lookup --service-guid service-instance_67e9e04e-8cc5-4744-8a5a-eb0a2d21c7ee --format table
+      - cf rsl -s db8dba61-32c7-4834-b94b-b3d61240d47b
+      - cf rsl -s db8dba61-32c7-4834-b94b-b3d61240d47b -s db8dba61-32c7-4834-b94b-b3d61240d47b --format table
       - task: uninstall

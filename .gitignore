@@ -12,5 +12,5 @@
 *.out
 
 dist
-hack
+scratchpad
 .DS_Store

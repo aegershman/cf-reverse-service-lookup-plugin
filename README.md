@@ -14,14 +14,20 @@ With this plugin, as long as you're logged into the same Cloud Foundry installat
 
 ```sh
 # get details on a service instance by it's GUID alone
-cf reverse-service-lookup --service-guid 67e9e04e-8cc5-4744-8a5a-eb0a2d21c7ee
+cf rsl -s 4c463943-d421-4f6f-8501-247fba95882d
 
 # passing BOSH's default 'service-instance_' prefix is acceptable, too
-cf reverse-service-lookup --service-guid service-instance_67e9e04e-8cc5-4744-8a5a-eb0a2d21c7ee
+cf rsl -s service-instance_4c463943-d421-4f6f-8501-247fba95882d
 
-# optionally, different presentation formats can be specified
-cf reverse-service-lookup --service-guid xyz --format json (default)
-cf reverse-service-lookup --service-guid xyz --format table
+# you can pass '-s service-instance_GUID' multiple times
+cf rsl -s service-instance_4c463943-d421-4f6f-8501-247fba95882d -s bbaa77df-52e7-4d6a-8c86-d07a7c93ab82
+
+# optionally, multiple different presentation formats can be specified
+cf rsl -s xyz --format json (default)
+cf rsl -s xyz --format table
+
+# or both, why not
+cf rsl -s xyz --format table --format json
 ```
 
 `--format json`:
@@ -58,13 +64,13 @@ If you want to try it out, install it directly from [the github releases tab as 
 
 ```sh
 # osx 64bit
-cf install-plugin -f https://github.com/aegershman/cf-reverse-service-lookup-plugin/releases/download/0.3.0/cf-reverse-service-lookup-plugin-darwin
+cf install-plugin -f https://github.com/aegershman/cf-reverse-service-lookup-plugin/releases/download/0.4.0/cf-reverse-service-lookup-plugin-darwin
 
 # linux 64bit (32bit and ARM6 also available)
-cf install-plugin -f https://github.com/aegershman/cf-reverse-service-lookup-plugin/releases/download/0.3.0/cf-reverse-service-lookup-plugin-amd64
+cf install-plugin -f https://github.com/aegershman/cf-reverse-service-lookup-plugin/releases/download/0.4.0/cf-reverse-service-lookup-plugin-amd64
 
 # windows 64bit (32bit also available)
-cf install-plugin -f https://github.com/aegershman/cf-reverse-service-lookup-plugin/releases/download/0.3.0/cf-reverse-service-lookup-plugin-windows-amd64.exe
+cf install-plugin -f https://github.com/aegershman/cf-reverse-service-lookup-plugin/releases/download/0.4.0/cf-reverse-service-lookup-plugin-windows-amd64.exe
 ```
 
 ## feedback welcome

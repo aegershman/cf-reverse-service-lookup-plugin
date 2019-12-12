@@ -1,10 +1,5 @@
 package v2client
 
-import (
-	"errors"
-	"fmt"
-)
-
 // Organization -
 type Organization struct {
 	Name string `json:"name"`
@@ -14,19 +9,13 @@ type Organization struct {
 type OrgsService service
 
 // GetOrganizationByGUID -
-func (o *OrgsService) GetOrganizationByGUID(organizationGUID string) (Organization, error) {
-	path := fmt.Sprintf("/v2/organizations/%s", organizationGUID)
-	summaryJSON, err := o.client.Curl(path)
+func (o *OrgsService) GetOrganizationByGUID(orgGUID string) (Organization, error) {
+	org, err := o.client.cfc.GetOrgByGuid(orgGUID)
 	if err != nil {
 		return Organization{}, err
 	}
 
-	if entity, ok := summaryJSON["entity"].(map[string]interface{}); ok {
-		return Organization{
-			Name: entity["name"].(string),
-		}, nil
-	}
-
-	return Organization{}, errors.New(fmt.Sprintln(summaryJSON))
-
+	return Organization{
+		Name: org.Name,
+	}, nil
 }
