@@ -1,8 +1,6 @@
 package v2client
 
 import (
-	"encoding/json"
-	"errors"
 	"strings"
 
 	"github.com/cloudfoundry-community/go-cfclient"
@@ -12,7 +10,6 @@ import (
 // Client -
 type Client struct {
 	cfc    cfclient.CloudFoundryClient
-	cli    plugin.CliConnection
 	common service
 
 	Orgs     *OrgsService
@@ -44,7 +41,7 @@ func NewClient(cli plugin.CliConnection) (*Client, error) {
 		return &Client{}, nil
 	}
 
-	c := &Client{cli: cli}
+	c := &Client{}
 	c.cfc = cfc
 	c.common.client = c
 	c.Orgs = (*OrgsService)(&c.common)
@@ -55,25 +52,4 @@ func NewClient(cli plugin.CliConnection) (*Client, error) {
 
 type service struct {
 	client *Client
-}
-
-// Curl -
-func (c *Client) Curl(path string) (map[string]interface{}, error) {
-	output, err := c.cli.CliCommandWithoutTerminalOutput("curl", path)
-	if err != nil {
-		return nil, err
-	}
-
-	if nil == output || 0 == len(output) {
-		return nil, errors.New("CF API returned no output")
-	}
-
-	data := strings.Join(output, "\n")
-	if 0 == len(data) || "" == data {
-		return nil, errors.New("Failed to join output")
-	}
-
-	var f interface{}
-	err = json.Unmarshal([]byte(data), &f)
-	return f.(map[string]interface{}), err
 }
