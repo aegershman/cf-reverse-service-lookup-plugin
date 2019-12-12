@@ -11,8 +11,8 @@ import (
 
 type reverseServiceLookupCmd struct{}
 
-// ReverseServiceLookupCommand -
-func (cmd *reverseServiceLookupCmd) ReverseServiceLookupCommand(cli plugin.CliConnection, args []string) {
+// reverseServiceLookupCommand is the "real" main entrypoint into program execution
+func (cmd *reverseServiceLookupCmd) reverseServiceLookupCommand(cli plugin.CliConnection, args []string) {
 	var (
 		formatFlag      string
 		logLevelFlag    string
@@ -105,7 +105,7 @@ func (cmd *reverseServiceLookupCmd) GetMetadata() plugin.PluginMetadata {
 func (cmd *reverseServiceLookupCmd) Run(cli plugin.CliConnection, args []string) {
 	switch args[0] {
 	case "rsl":
-		cmd.ReverseServiceLookupCommand(cli, args)
+		cmd.reverseServiceLookupCommand(cli, args)
 	default:
 		log.Debugln("did you know plugin commands can still get ran when uninstalling a plugin? interesting, right?")
 		return
