@@ -21,5 +21,5 @@ tasks:
     cmds:
       - task: install
       - cf rsl -s db8dba61-32c7-4834-b94b-b3d61240d47b
-      - cf rsl -s db8dba61-32c7-4834-b94b-b3d61240d47b --format table
+      - cf rsl -s db8dba61-32c7-4834-b94b-b3d61240d47b -s db8dba61-32c7-4834-b94b-b3d61240d47b --format table
       - task: uninstall

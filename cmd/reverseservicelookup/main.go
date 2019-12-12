@@ -50,12 +50,16 @@ func (cmd *reverseServiceLookupCmd) reverseServiceLookupCommand(cli plugin.CliCo
 	flagss := flag.NewFlagSet(args[0], flag.ContinueOnError)
 	flagss.Var(&formatFlag, "format", "")
 	flagss.StringVar(&logLevelFlag, "log-level", "info", "")
-	flagss.Var(&serviceGUIDFlag, "serviceGUID", "")
+	flagss.Var(&serviceGUIDFlag, "s", "")
 	flagss.StringVar(&trimPrefixFlag, "trim-prefix", "service-instance_", "")
 
 	err := flagss.Parse(args[1:])
 	if err != nil {
 		log.Fatalln(err)
+	}
+
+	if len(serviceGUIDFlag.guids) == 0 {
+		log.Fatalln("please provide at least one -s service-instance_GUID")
 	}
 
 	logLevel, err := log.ParseLevel(logLevelFlag)
