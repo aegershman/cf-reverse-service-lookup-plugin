@@ -23,7 +23,7 @@ func (cmd *reverseServiceLookupCmd) ReverseServiceLookupCommand(cli plugin.CliCo
 	flagss := flag.NewFlagSet(args[0], flag.ContinueOnError)
 	flagss.StringVar(&formatFlag, "format", "json", "")
 	flagss.StringVar(&logLevelFlag, "log-level", "info", "")
-	flagss.StringVar(&serviceGUIDFlag, "service-guid", "", "")
+	flagss.StringVar(&serviceGUIDFlag, "s", "", "")
 	flagss.StringVar(&trimPrefixFlag, "trim-prefix", "service-instance_", "")
 
 	err := flagss.Parse(args[1:])
@@ -85,12 +85,12 @@ func (cmd *reverseServiceLookupCmd) GetMetadata() plugin.PluginMetadata {
 				Name:     "reverse-service-lookup",
 				HelpText: "perform reverse lookups against service instance GUIDs",
 				UsageDetails: plugin.Usage{
-					Usage: "cf reverse-service-lookup --service-guid service_instance-xyzabc]",
+					Usage: "cf rsl [-s service_instance-xyzabc]",
 					Options: map[string]string{
-						"format":       "format to present (options: table,json) (default: json)",
-						"log-level":    "(options: info,debug,trace) (default: info)",
-						"service-guid": "GUID of service instance to reverse-lookup. Can be of form 'service_instance-xyzguid123' or just 'xyzguid123'",
-						"trim-prefix":  "if your services are prefixed with something besides BOSH defaults, change this to be the string prefix before the service GUID... also, if you have that use-case, definitely let me know, I'm intrigued. (default: service_instance-)",
+						"format":      "format to present (options: table,json) (default: json)",
+						"log-level":   "(options: info,debug,trace) (default: info)",
+						"s":           "GUID of service instance to reverse-lookup. Can be of form 'service_instance-xyzguid123' or just 'xyzguid123'",
+						"trim-prefix": "if your services are prefixed with something besides BOSH defaults, change this to be the string prefix before the service GUID... also, if you have that use-case, definitely let me know, I'm intrigued. (default: service_instance-)",
 					},
 				},
 			},
@@ -100,7 +100,7 @@ func (cmd *reverseServiceLookupCmd) GetMetadata() plugin.PluginMetadata {
 
 // Run -
 func (cmd *reverseServiceLookupCmd) Run(cli plugin.CliConnection, args []string) {
-	if args[0] == "reverse-service-lookup" {
+	if args[0] == "rsl" {
 		cmd.ReverseServiceLookupCommand(cli, args)
 	}
 }
