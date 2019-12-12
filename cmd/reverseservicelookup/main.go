@@ -39,7 +39,10 @@ func (cmd *reverseServiceLookupCmd) ReverseServiceLookupCommand(cli plugin.CliCo
 
 	trimmedServiceGUID := strings.TrimPrefix(serviceGUIDFlag, trimPrefixFlag)
 
-	cf := v2client.NewClient(cli)
+	cf, err := v2client.NewClient(cli)
+	if err != nil {
+		log.Fatalln(err)
+	}
 
 	serviceInstance, err := cf.Services.GetServiceInstanceByGUID(trimmedServiceGUID)
 	if err != nil {
