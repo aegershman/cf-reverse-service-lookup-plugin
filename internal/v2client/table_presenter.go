@@ -14,11 +14,13 @@ func (p *Presenter) asTable() {
 		"service",
 	})
 
-	table.Append([]string{
-		p.ServiceReport.Organization.Name,
-		p.ServiceReport.Space.Name,
-		p.ServiceReport.Service.Name,
-	})
+	for _, report := range p.ServiceReport {
+		table.Append([]string{
+			report.Organization.Name,
+			report.Space.Name,
+			report.Service.Name,
+		})
+	}
 
 	table.Render()
 

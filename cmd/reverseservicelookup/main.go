@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"strings"
 
 	"code.cloudfoundry.org/cli/plugin"
@@ -11,19 +12,45 @@ import (
 
 type reverseServiceLookupCmd struct{}
 
+type serviceGUIDFlag struct {
+	guids []string
+}
+
+func (s *serviceGUIDFlag) String() string {
+	return fmt.Sprint(s.guids)
+}
+
+func (s *serviceGUIDFlag) Set(value string) error {
+	s.guids = append(s.guids, value)
+	return nil
+}
+
+type formatFlag struct {
+	formats []string
+}
+
+func (f *formatFlag) String() string {
+	return fmt.Sprint(f.formats)
+}
+
+func (f *formatFlag) Set(value string) error {
+	f.formats = append(f.formats, value)
+	return nil
+}
+
 // reverseServiceLookupCommand is the "real" main entrypoint into program execution
 func (cmd *reverseServiceLookupCmd) reverseServiceLookupCommand(cli plugin.CliConnection, args []string) {
 	var (
-		formatFlag      string
+		formatFlag      formatFlag
 		logLevelFlag    string
-		serviceGUIDFlag string
+		serviceGUIDFlag serviceGUIDFlag
 		trimPrefixFlag  string
 	)
 
 	flagss := flag.NewFlagSet(args[0], flag.ContinueOnError)
-	flagss.StringVar(&formatFlag, "format", "json", "")
+	flagss.Var(&formatFlag, "format", "")
 	flagss.StringVar(&logLevelFlag, "log-level", "info", "")
-	flagss.StringVar(&serviceGUIDFlag, "s", "", "")
+	flagss.Var(&serviceGUIDFlag, "serviceGUID", "")
 	flagss.StringVar(&trimPrefixFlag, "trim-prefix", "service-instance_", "")
 
 	err := flagss.Parse(args[1:])
@@ -42,36 +69,40 @@ func (cmd *reverseServiceLookupCmd) reverseServiceLookupCommand(cli plugin.CliCo
 		log.Fatalln(err)
 	}
 
-	trimmedServiceGUID := strings.TrimPrefix(serviceGUIDFlag, trimPrefixFlag)
+	var serviceReports []v2client.ServiceReport
+	for _, service := range serviceGUIDFlag.guids {
+		trimmedServiceGUID := strings.TrimPrefix(service, trimPrefixFlag)
 
-	serviceInstance, err := cf.Services.GetServiceInstanceByGUID(trimmedServiceGUID)
-	if err != nil {
-		log.Fatalln(err)
-	}
+		serviceInstance, err := cf.Services.GetServiceInstanceByGUID(trimmedServiceGUID)
+		if err != nil {
+			log.Fatalln(err)
+		}
 
-	serviceSpace, err := cf.Spaces.GetSpaceByGUID(serviceInstance.SpaceGUID)
-	if err != nil {
-		log.Fatalln(err)
-	}
+		serviceSpace, err := cf.Spaces.GetSpaceByGUID(serviceInstance.SpaceGUID)
+		if err != nil {
+			log.Fatalln(err)
+		}
 
-	serviceOrganization, err := cf.Orgs.GetOrganizationByGUID(serviceSpace.OrganizationGUID)
-	if err != nil {
-		log.Fatalln(err)
-	}
+		serviceOrganization, err := cf.Orgs.GetOrganizationByGUID(serviceSpace.OrganizationGUID)
+		if err != nil {
+			log.Fatalln(err)
+		}
 
-	serviceReport := v2client.ServiceReport{
-		Service:      serviceInstance,
-		Space:        serviceSpace,
-		Organization: serviceOrganization,
+		serviceReport := v2client.ServiceReport{
+			Service:      serviceInstance,
+			Space:        serviceSpace,
+			Organization: serviceOrganization,
+		}
+
+		serviceReports = append(serviceReports, serviceReport)
 	}
 
 	presenter := v2client.Presenter{
-		ServiceReport: serviceReport,
-		Format:        formatFlag,
+		ServiceReport: serviceReports,
+		Format:        formatFlag.formats,
 	}
 
 	presenter.Render()
-
 }
 
 // GetMetadata -
