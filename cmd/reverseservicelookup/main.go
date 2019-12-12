@@ -100,8 +100,12 @@ func (cmd *reverseServiceLookupCmd) GetMetadata() plugin.PluginMetadata {
 
 // Run -
 func (cmd *reverseServiceLookupCmd) Run(cli plugin.CliConnection, args []string) {
-	if args[0] == "rsl" {
+	switch args[0] {
+	case "rsl":
 		cmd.ReverseServiceLookupCommand(cli, args)
+	default:
+		log.Debugln("did you know plugin commands can still get ran when uninstalling a plugin? interesting, right?")
+		return
 	}
 }
 
