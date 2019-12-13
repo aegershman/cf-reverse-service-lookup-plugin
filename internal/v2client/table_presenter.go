@@ -9,16 +9,18 @@ import (
 func (p *Presenter) asTable() {
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string{
+		"service_guid",
+		"service",
 		"org",
 		"space",
-		"service",
 	})
 
 	for _, report := range p.ServiceReport {
 		table.Append([]string{
+			report.Service.GUID,
+			report.Service.Name,
 			report.Organization.Name,
 			report.Space.Name,
-			report.Service.Name,
 		})
 	}
 

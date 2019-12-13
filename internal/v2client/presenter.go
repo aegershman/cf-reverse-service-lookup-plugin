@@ -13,7 +13,7 @@ type Presenter struct {
 // Render -
 func (p *Presenter) Render() {
 	if len(p.Format) == 0 {
-		p.asJSON()
+		p.asTable()
 	}
 
 	for _, f := range p.Format {
