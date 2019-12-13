@@ -7,13 +7,13 @@ before:
 
 builds:
   - id: darwin
-    main: ./cmd/reverseservicelookup/main.go
+    main: ./cmd/rsl/main.go
     goos:
       - darwin
     goarch:
       - amd64
   - id: linux-windows
-    main: ./cmd/reverseservicelookup/main.go
+    main: ./cmd/rsl/main.go
     goos:
       - linux
       - windows
