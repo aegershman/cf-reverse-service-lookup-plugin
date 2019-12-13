@@ -68,13 +68,13 @@ If you want to try it out, install it directly from [the github releases tab as 
 
 ```sh
 # osx 64bit
-cf install-plugin -f https://github.com/aegershman/cf-reverse-service-lookup-plugin/releases/download/0.5.0/cf-reverse-service-lookup-plugin-darwin
+cf install-plugin -f https://github.com/aegershman/cf-reverse-service-lookup-plugin/releases/download/0.5.1/cf-reverse-service-lookup-plugin-darwin
 
 # linux 64bit (32bit and ARM6 also available)
-cf install-plugin -f https://github.com/aegershman/cf-reverse-service-lookup-plugin/releases/download/0.5.0/cf-reverse-service-lookup-plugin-amd64
+cf install-plugin -f https://github.com/aegershman/cf-reverse-service-lookup-plugin/releases/download/0.5.1/cf-reverse-service-lookup-plugin-amd64
 
 # windows 64bit (32bit also available)
-cf install-plugin -f https://github.com/aegershman/cf-reverse-service-lookup-plugin/releases/download/0.5.0/cf-reverse-service-lookup-plugin-windows-amd64.exe
+cf install-plugin -f https://github.com/aegershman/cf-reverse-service-lookup-plugin/releases/download/0.5.1/cf-reverse-service-lookup-plugin-windows-amd64.exe
 ```
 
 ## feedback welcome
