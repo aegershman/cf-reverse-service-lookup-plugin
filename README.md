@@ -23,8 +23,8 @@ cf rsl -s service-instance_4c463943-d421-4f6f-8501-247fba95882d
 cf rsl -s service-instance_4c463943-d421-4f6f-8501-247fba95882d -s bbaa77df-52e7-4d6a-8c86-d07a7c93ab82
 
 # optionally, multiple different presentation formats can be specified
-cf rsl -s xyz --format json (default)
-cf rsl -s xyz --format table
+cf rsl -s xyz --format table (default)
+cf rsl -s xyz --format json
 
 # or both, why not
 cf rsl -s xyz --format table --format json
@@ -33,29 +33,33 @@ cf rsl -s xyz --format table --format json
 `--format json`:
 
 ```json
-{
-  "organization": {
-    "name": "gershman"
-  },
-  "service": {
-    "name": "tiny-turtle-sql",
-    "space_guid": "4ba83909-cde1-448e-873f-d53b27391604"
-  },
-  "space": {
-    "name": "dev",
-    "organization_guid": "a297887a-f58f-4266-9ba2-186563eec13a"
+[
+  {
+    "organization": {
+      "name": "grundlework"
+    },
+    "service": {
+      "guid": "d6bb8908-a8f8-46b9-9c21-3069cdb939ef",
+      "name": "small-redis",
+      "space_guid": "8a90a486-6a40-4709-b65f-efe6705bdc8f"
+    },
+    "space": {
+      "name": "scratchpad",
+      "organization_guid": "d63feced-41d1-44d7-ba9b-8d062975313b"
+    }
   }
-}
+]
 ```
 
 `--format table`:
 
 ```txt
-+----------+-------+-----------------+
-|   ORG    | SPACE |     SERVICE     |
-+----------+-------+-----------------+
-| gershman | dev   | tiny-turtle-sql |
-+----------+-------+-----------------+
++--------------------------------------+-------------+-------------+------------+
+|             SERVICE GUID             |   SERVICE   |     ORG     |   SPACE    |
++--------------------------------------+-------------+-------------+------------+
+| d6bb8908-a8f8-46b9-9c21-3069cdb939ef | small-redis | grundlework | scratchpad |
+| a23c6626-2e42-484d-8664-0f6008316f09 | other-redis | otherorgxyz | 123xyspace |
++--------------------------------------+-------------+-------------+------------+
 ```
 
 ## installation

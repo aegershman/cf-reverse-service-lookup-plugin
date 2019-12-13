@@ -2,6 +2,7 @@ package v2client
 
 // Service -
 type Service struct {
+	GUID      string `json:"guid"`
 	Name      string `json:"name"`
 	SpaceGUID string `json:"space_guid"`
 }
@@ -17,6 +18,7 @@ func (s *ServicesService) GetServiceInstanceByGUID(serviceGUID string) (Service,
 	}
 
 	return Service{
+		GUID:      service.Guid,
 		Name:      service.Name,
 		SpaceGUID: service.SpaceGuid,
 	}, nil
