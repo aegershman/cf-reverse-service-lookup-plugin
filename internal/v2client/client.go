@@ -7,14 +7,19 @@ import (
 	"github.com/cloudfoundry/cli/plugin"
 )
 
+type service struct {
+	client *Client
+}
+
 // Client -
 type Client struct {
 	cfc    cfclient.CloudFoundryClient
 	common service
 
-	Orgs     *OrgsService
-	Services *ServicesService
-	Spaces   *SpacesService
+	Orgs                 *OrgsService
+	ServiceReportService *ServiceReportService
+	Services             *ServicesService
+	Spaces               *SpacesService
 }
 
 // NewClient -
@@ -45,11 +50,8 @@ func NewClient(cli plugin.CliConnection) (*Client, error) {
 	c.cfc = cfc
 	c.common.client = c
 	c.Orgs = (*OrgsService)(&c.common)
+	c.ServiceReportService = (*ServiceReportService)(&c.common)
 	c.Services = (*ServicesService)(&c.common)
 	c.Spaces = (*SpacesService)(&c.common)
 	return c, nil
-}
-
-type service struct {
-	client *Client
 }

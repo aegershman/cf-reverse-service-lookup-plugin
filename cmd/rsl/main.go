@@ -73,32 +73,15 @@ func (cmd *reverseServiceLookupCmd) reverseServiceLookupCommand(cli plugin.CliCo
 		log.Fatalln(err)
 	}
 
-	var serviceReports []v2client.ServiceReport
+	var trimmedServiceGUIDs []string
 	for _, service := range serviceGUIDFlag.guids {
 		trimmedServiceGUID := strings.TrimPrefix(service, trimPrefixFlag)
+		trimmedServiceGUIDs = append(trimmedServiceGUIDs, trimmedServiceGUID)
+	}
 
-		serviceInstance, err := cf.Services.GetServiceInstanceByGUID(trimmedServiceGUID)
-		if err != nil {
-			log.Fatalln(err)
-		}
-
-		serviceSpace, err := cf.Spaces.GetSpaceByGUID(serviceInstance.SpaceGUID)
-		if err != nil {
-			log.Fatalln(err)
-		}
-
-		serviceOrganization, err := cf.Orgs.GetOrganizationByGUID(serviceSpace.OrganizationGUID)
-		if err != nil {
-			log.Fatalln(err)
-		}
-
-		serviceReport := v2client.ServiceReport{
-			Service:      serviceInstance,
-			Space:        serviceSpace,
-			Organization: serviceOrganization,
-		}
-
-		serviceReports = append(serviceReports, serviceReport)
+	serviceReports, err := cf.ServiceReportService.GetServiceReportsFromServiceGUIDs(trimmedServiceGUIDs...)
+	if err != nil {
+		log.Fatalln(err)
 	}
 
 	presenter := v2client.Presenter{
@@ -116,7 +99,7 @@ func (cmd *reverseServiceLookupCmd) GetMetadata() plugin.PluginMetadata {
 		Version: plugin.VersionType{
 			Major: 0,
 			Minor: 5,
-			Build: 1,
+			Build: 2,
 		},
 		Commands: []plugin.Command{
 			{
