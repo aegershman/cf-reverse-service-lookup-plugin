@@ -12,25 +12,25 @@ import (
 
 // Presenter -
 type Presenter struct {
-	ServiceReports []ServiceReport
-	Formats        []string
+	serviceReports []ServiceReport
+	formats        []string
 }
 
 // NewPresenter -
 func NewPresenter(serviceReports []ServiceReport, formats []string) *Presenter {
 	return &Presenter{
-		ServiceReports: serviceReports,
-		Formats:        formats,
+		serviceReports: serviceReports,
+		formats:        formats,
 	}
 }
 
 // Render -
 func (p *Presenter) Render() {
-	if len(p.Formats) == 0 {
+	if len(p.formats) == 0 {
 		p.asTable()
 	}
 
-	for _, f := range p.Formats {
+	for _, f := range p.formats {
 		switch f {
 		case "table":
 			p.asTable()
@@ -51,7 +51,7 @@ func (p *Presenter) asTable() {
 		"space",
 	})
 
-	for _, report := range p.ServiceReports {
+	for _, report := range p.serviceReports {
 		table.Append([]string{
 			report.Service.GUID,
 			report.Service.Name,
@@ -64,7 +64,7 @@ func (p *Presenter) asTable() {
 }
 
 func (p *Presenter) asJSON() {
-	j, err := json.Marshal(p.ServiceReports)
+	j, err := json.Marshal(p.serviceReports)
 	if err != nil {
 		log.Fatalln(err)
 	}
