@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"os"
 	"strings"
 
 	"code.cloudfoundry.org/cli/plugin"
@@ -84,7 +85,7 @@ func (cmd *reverseServiceLookupCmd) reverseServiceLookupCommand(cli plugin.CliCo
 		log.Fatalln(err)
 	}
 
-	presenter := v2client.NewPresenter(serviceReports, formatFlag.formats)
+	presenter := v2client.NewPresenter(formatFlag.formats, serviceReports, os.Stdout)
 	presenter.Render()
 }
 

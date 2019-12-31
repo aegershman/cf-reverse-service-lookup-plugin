@@ -2,8 +2,7 @@ package v2client
 
 import (
 	"encoding/json"
-	"fmt"
-	"os"
+	"io"
 
 	log "github.com/sirupsen/logrus"
 
@@ -12,15 +11,17 @@ import (
 
 // Presenter -
 type Presenter struct {
-	serviceReports []ServiceReport
 	formats        []string
+	serviceReports []ServiceReport
+	writer         io.Writer
 }
 
 // NewPresenter -
-func NewPresenter(serviceReports []ServiceReport, formats []string) *Presenter {
+func NewPresenter(formats []string, serviceReports []ServiceReport, writer io.Writer) *Presenter {
 	return &Presenter{
-		serviceReports: serviceReports,
 		formats:        formats,
+		serviceReports: serviceReports,
+		writer:         writer,
 	}
 }
 
@@ -43,7 +44,7 @@ func (p *Presenter) Render() {
 }
 
 func (p *Presenter) asTable() {
-	table := tablewriter.NewWriter(os.Stdout)
+	table := tablewriter.NewWriter(p.writer)
 	table.SetHeader([]string{
 		"service_guid",
 		"service",
@@ -66,8 +67,7 @@ func (p *Presenter) asTable() {
 func (p *Presenter) asJSON() {
 	j, err := json.Marshal(p.serviceReports)
 	if err != nil {
-		log.Fatalln(err)
+		log.Debugln(err)
 	}
-
-	fmt.Println(string(j))
+	p.writer.Write(j)
 }
