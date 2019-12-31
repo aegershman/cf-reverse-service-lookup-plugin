@@ -73,16 +73,15 @@ func (cmd *reverseServiceLookupCmd) reverseServiceLookupCommand(cli plugin.CliCo
 		log.Fatalln(err)
 	}
 
-	var serviceReports []v2client.ServiceReport
+	var trimmedServiceGUIDs []string
 	for _, service := range serviceGUIDFlag.guids {
 		trimmedServiceGUID := strings.TrimPrefix(service, trimPrefixFlag)
+		trimmedServiceGUIDs = append(trimmedServiceGUIDs, trimmedServiceGUID)
+	}
 
-		serviceReport, err := cf.ServiceReportService.GetServiceReportFromServiceGUID(trimmedServiceGUID)
-		if err != nil {
-			log.Fatalln(err)
-		}
-
-		serviceReports = append(serviceReports, serviceReport)
+	serviceReports, err := cf.Lookup(trimmedServiceGUIDs...)
+	if err != nil {
+		log.Fatalln(err)
 	}
 
 	presenter := v2client.Presenter{
