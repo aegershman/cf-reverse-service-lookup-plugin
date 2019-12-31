@@ -79,7 +79,7 @@ func (cmd *reverseServiceLookupCmd) reverseServiceLookupCommand(cli plugin.CliCo
 		trimmedServiceGUIDs = append(trimmedServiceGUIDs, trimmedServiceGUID)
 	}
 
-	serviceReports, err := cf.Lookup(trimmedServiceGUIDs...)
+	serviceReports, err := cf.ServiceReportService.GetServiceReportsFromServiceGUIDs(trimmedServiceGUIDs...)
 	if err != nil {
 		log.Fatalln(err)
 	}

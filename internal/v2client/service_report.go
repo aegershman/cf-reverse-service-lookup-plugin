@@ -10,6 +10,19 @@ type ServiceReport struct {
 // ServiceReportService -
 type ServiceReportService service
 
+// GetServiceReportsFromServiceGUIDs -
+func (s *ServiceReportService) GetServiceReportsFromServiceGUIDs(serviceGUIDs ...string) ([]ServiceReport, error) {
+	var serviceReports []ServiceReport
+	for _, serviceGUID := range serviceGUIDs {
+		serviceReport, err := s.client.ServiceReportService.GetServiceReportFromServiceGUID(serviceGUID)
+		if err != nil {
+			return nil, err
+		}
+		serviceReports = append(serviceReports, serviceReport)
+	}
+	return serviceReports, nil
+}
+
 // GetServiceReportFromServiceGUID -
 func (s *ServiceReportService) GetServiceReportFromServiceGUID(serviceGUID string) (ServiceReport, error) {
 	serviceInstance, err := s.client.Services.GetServiceInstanceByGUID(serviceGUID)

@@ -55,18 +55,3 @@ func NewClient(cli plugin.CliConnection) (*Client, error) {
 	c.Spaces = (*SpacesService)(&c.common)
 	return c, nil
 }
-
-// Lookup -
-func (c *Client) Lookup(serviceGUIDs ...string) ([]ServiceReport, error) {
-	var serviceReports []ServiceReport
-	for _, serviceGUID := range serviceGUIDs {
-		serviceReport, err := c.ServiceReportService.GetServiceReportFromServiceGUID(serviceGUID)
-		if err != nil {
-			return nil, err
-		}
-		serviceReports = append(serviceReports, serviceReport)
-	}
-
-	return serviceReports, nil
-
-}
