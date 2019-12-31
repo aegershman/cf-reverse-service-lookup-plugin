@@ -16,6 +16,14 @@ type Presenter struct {
 	Format        []string
 }
 
+// NewPresenter -
+func NewPresenter(serviceReports []ServiceReport, format []string) *Presenter {
+	return &Presenter{
+		ServiceReport: serviceReports,
+		Format:        format,
+	}
+}
+
 // Render -
 func (p *Presenter) Render() {
 	if len(p.Format) == 0 {

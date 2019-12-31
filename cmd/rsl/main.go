@@ -84,11 +84,7 @@ func (cmd *reverseServiceLookupCmd) reverseServiceLookupCommand(cli plugin.CliCo
 		log.Fatalln(err)
 	}
 
-	presenter := v2client.Presenter{
-		ServiceReport: serviceReports,
-		Format:        formatFlag.formats,
-	}
-
+	presenter := v2client.NewPresenter(serviceReports, formatFlag.formats)
 	presenter.Render()
 }
 
