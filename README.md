@@ -77,6 +77,17 @@ cf install-plugin -f https://github.com/aegershman/cf-reverse-service-lookup-plu
 cf install-plugin -f https://github.com/aegershman/cf-reverse-service-lookup-plugin/releases/download/0.5.3/cf-reverse-service-lookup-plugin-windows-amd64.exe
 ```
 
+## updating and releasing
+
+- `go get -u all`
+- `go mod tidy`
+- update the plugin version in `main.go`
+- update the `README` install-plugin section to reference the new upcoming release version
+- `git tag 0.5.3` -- or whatever version, of course
+- `git push origin --tags`
+- `export GITHUB_TOKEN="xyzabc"`
+- `goreleaser release`
+
 ## feedback welcome
 
 Ideas, use-cases, opinions on architecture, doc, etc. all welcome
