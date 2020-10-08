@@ -6,7 +6,7 @@ require (
 	code.cloudfoundry.org/cli v6.51.0+incompatible
 	github.com/Masterminds/semver v1.5.0 // indirect
 	github.com/cloudfoundry-community/go-cfclient v0.0.0-20200413172050-18981bf12b4b
-	github.com/cloudfoundry/cli v6.51.0+incompatible
+	github.com/cloudfoundry/cli v6.53.0+incompatible
 	github.com/google/go-cmp v0.4.1 // indirect
 	github.com/gopherjs/gopherjs v0.0.0-20200217142428-fce0ec30dd00 // indirect
 	github.com/kr/text v0.2.0 // indirect
