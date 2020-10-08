@@ -15,6 +15,7 @@ github.com/cloudfoundry-community/go-cfclient v0.0.0-20200413172050-18981bf12b4b
 github.com/cloudfoundry-community/go-cfclient v0.0.0-20200413172050-18981bf12b4b/go.mod h1:RtIewdO+K/czvxvIFCMbPyx7jdxSLL1RZ+DA/Vk8Lwg=
 github.com/cloudfoundry/cli v6.51.0+incompatible h1:ICoLrRHspKjK2//Px/xYnOHcUwjPqOC5R3fvKujdweo=
 github.com/cloudfoundry/cli v6.51.0+incompatible/go.mod h1:uUVSLzSuwWNhis5+tY5XRUp66kLbHhBktg8b3ZfcJHI=
+github.com/cloudfoundry/cli v6.53.0+incompatible/go.mod h1:uUVSLzSuwWNhis5+tY5XRUp66kLbHhBktg8b3ZfcJHI=
 github.com/codegangsta/inject v0.0.0-20150114235600-33e0aa1cb7c0 h1:sDMmm+q/3+BukdIpxwO365v/Rbspp2Nt5XntgQRXq8Q=
 github.com/codegangsta/inject v0.0.0-20150114235600-33e0aa1cb7c0/go.mod h1:4Zcjuz89kmFXt9morQgcfYZAYZ5n8WHjt81YYWIwtTM=
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
