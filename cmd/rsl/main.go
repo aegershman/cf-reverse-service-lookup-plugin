@@ -96,7 +96,7 @@ func (cmd *reverseServiceLookupCmd) GetMetadata() plugin.PluginMetadata {
 		Version: plugin.VersionType{
 			Major: 0,
 			Minor: 5,
-			Build: 4,
+			Build: 5,
 		},
 		Commands: []plugin.Command{
 			{
