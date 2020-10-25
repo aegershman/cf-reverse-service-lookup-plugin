@@ -3,8 +3,8 @@ package v2client
 import (
 	"strings"
 
+	"code.cloudfoundry.org/cli/plugin"
 	"github.com/cloudfoundry-community/go-cfclient"
-	"github.com/cloudfoundry/cli/plugin"
 )
 
 type service struct {
