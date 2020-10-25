@@ -1,6 +1,6 @@
 module github.com/aegershman/cf-reverse-service-lookup-plugin
 
-go 1.13
+go 1.15
 
 require (
 	code.cloudfoundry.org/cli v6.53.0+incompatible
