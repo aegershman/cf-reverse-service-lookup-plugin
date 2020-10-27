@@ -3,8 +3,7 @@ package v2client
 import (
 	"encoding/json"
 	"io"
-
-	log "github.com/sirupsen/logrus"
+	"log"
 
 	"github.com/olekukonko/tablewriter"
 )
@@ -37,8 +36,6 @@ func (p *Presenter) Render() {
 			p.asTable()
 		case "json":
 			p.asJSON()
-		default:
-			log.Debugf("unknown format [%s], using default\n", f)
 		}
 	}
 }
@@ -67,7 +64,7 @@ func (p *Presenter) asTable() {
 func (p *Presenter) asJSON() {
 	j, err := json.Marshal(p.serviceReports)
 	if err != nil {
-		log.Debugln(err)
+		log.Fatalln(err)
 	}
 	p.writer.Write(j)
 }

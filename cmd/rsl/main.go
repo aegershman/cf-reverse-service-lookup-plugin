@@ -3,12 +3,12 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 	"os"
 	"strings"
 
 	"code.cloudfoundry.org/cli/plugin"
 	"github.com/aegershman/cf-reverse-service-lookup-plugin/internal/v2client"
-	log "github.com/sirupsen/logrus"
 )
 
 type reverseServiceLookupCmd struct{}
@@ -43,14 +43,12 @@ func (f *formatFlag) Set(value string) error {
 func (cmd *reverseServiceLookupCmd) reverseServiceLookupCommand(cli plugin.CliConnection, args []string) {
 	var (
 		formatFlag      formatFlag
-		logLevelFlag    string
 		serviceGUIDFlag serviceGUIDFlag
 		trimPrefixFlag  string
 	)
 
 	flagss := flag.NewFlagSet(args[0], flag.ContinueOnError)
 	flagss.Var(&formatFlag, "format", "")
-	flagss.StringVar(&logLevelFlag, "log-level", "info", "")
 	flagss.Var(&serviceGUIDFlag, "s", "")
 	flagss.StringVar(&trimPrefixFlag, "trim-prefix", "service-instance_", "")
 
@@ -62,12 +60,6 @@ func (cmd *reverseServiceLookupCmd) reverseServiceLookupCommand(cli plugin.CliCo
 	if len(serviceGUIDFlag.guids) == 0 {
 		log.Fatalln("please provide at least one -s service-instance_GUID")
 	}
-
-	logLevel, err := log.ParseLevel(logLevelFlag)
-	if err != nil {
-		log.Fatalln(err)
-	}
-	log.SetLevel(logLevel)
 
 	cf, err := v2client.NewClient(cli)
 	if err != nil {
@@ -106,7 +98,6 @@ func (cmd *reverseServiceLookupCmd) GetMetadata() plugin.PluginMetadata {
 					Usage: "cf rsl [-s service_instance-xyzabc...]",
 					Options: map[string]string{
 						"format":      "format to present (options: table,json) (default: table)",
-						"log-level":   "(options: info,debug,trace) (default: info)",
 						"s":           "service_instance-GUID to look up. Can be of form 'service_instance-xyzguid123' or just 'xyzguid123'",
 						"trim-prefix": "if your services are prefixed with something besides BOSH defaults, change this to be the string prefix before the service GUID... also, if you have that use-case, definitely let me know, I'm intrigued. (default: service_instance-)",
 					},
@@ -122,7 +113,6 @@ func (cmd *reverseServiceLookupCmd) Run(cli plugin.CliConnection, args []string)
 	case "rsl":
 		cmd.reverseServiceLookupCommand(cli, args)
 	default:
-		log.Debugln("did you know plugin commands can still get ran when uninstalling a plugin? interesting, right?")
 		return
 	}
 }
