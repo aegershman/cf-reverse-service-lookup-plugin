@@ -3,7 +3,7 @@ module github.com/aegershman/cf-reverse-service-lookup-plugin
 go 1.15
 
 require (
-	code.cloudfoundry.org/cli v6.53.0+incompatible
+	code.cloudfoundry.org/cli v7.1.0+incompatible
 	github.com/Masterminds/semver v1.5.0 // indirect
 	github.com/cloudfoundry-community/go-cfclient v0.0.0-20201023184446-5cf5e1c3862d
 	github.com/google/go-cmp v0.4.1 // indirect
@@ -15,7 +15,6 @@ require (
 	github.com/onsi/ginkgo v1.12.3 // indirect
 	github.com/oxtoacart/bpool v0.0.0-20190530202638-03653db5a59c // indirect
 	github.com/pkg/errors v0.9.1 // indirect
-	github.com/sirupsen/logrus v1.7.0
 	github.com/smartystreets/assertions v1.1.0 // indirect
 	github.com/smartystreets/goconvey v1.6.4 // indirect
 	github.com/stretchr/testify v1.6.0 // indirect
