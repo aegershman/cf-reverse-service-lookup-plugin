@@ -2,8 +2,10 @@ package v2client
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"log"
+	"strings"
 
 	"github.com/olekukonko/tablewriter"
 )
@@ -27,7 +29,7 @@ func NewPresenter(formats []string, serviceReports []ServiceReport, writer io.Wr
 // Render -
 func (p *Presenter) Render() {
 	if len(p.formats) == 0 {
-		p.asTable()
+		p.asPlainText()
 	}
 
 	for _, f := range p.formats {
@@ -36,7 +38,21 @@ func (p *Presenter) Render() {
 			p.asTable()
 		case "json":
 			p.asJSON()
+		case "plain-text":
+			p.asPlainText()
 		}
+	}
+}
+
+func (p *Presenter) asPlainText() {
+	for _, report := range p.serviceReports {
+		fieldsJoined := strings.Join([]string{
+			report.Service.GUID,
+			report.Service.Name,
+			report.Organization.Name,
+			report.Space.Name,
+		}, "\n")
+		fmt.Println(fieldsJoined)
 	}
 }
 

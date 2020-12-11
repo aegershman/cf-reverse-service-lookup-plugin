@@ -23,7 +23,8 @@ cf rsl -s service-instance_4c463943-d421-4f6f-8501-247fba95882d
 cf rsl -s service-instance_4c463943-d421-4f6f-8501-247fba95882d -s bbaa77df-52e7-4d6a-8c86-d07a7c93ab82
 
 # optionally, multiple different presentation formats can be specified
-cf rsl -s xyz --format table (default)
+cf rsl -s xyz --format plain-text (default)
+cf rsl -s xyz --format table
 cf rsl -s xyz --format json
 
 # or both, why not
@@ -68,13 +69,13 @@ If you want to try it out, install it directly from [the github releases tab as 
 
 ```sh
 # osx 64bit
-cf install-plugin -f https://github.com/aegershman/cf-reverse-service-lookup-plugin/releases/download/0.6.0/cf-reverse-service-lookup-plugin-darwin
+cf install-plugin -f https://github.com/aegershman/cf-reverse-service-lookup-plugin/releases/download/0.7.0/cf-reverse-service-lookup-plugin-darwin
 
 # linux 64bit (32bit and ARM6 also available)
-cf install-plugin -f https://github.com/aegershman/cf-reverse-service-lookup-plugin/releases/download/0.6.0/cf-reverse-service-lookup-plugin-amd64
+cf install-plugin -f https://github.com/aegershman/cf-reverse-service-lookup-plugin/releases/download/0.7.0/cf-reverse-service-lookup-plugin-amd64
 
 # windows 64bit (32bit also available)
-cf install-plugin -f https://github.com/aegershman/cf-reverse-service-lookup-plugin/releases/download/0.6.0/cf-reverse-service-lookup-plugin-windows-amd64.exe
+cf install-plugin -f https://github.com/aegershman/cf-reverse-service-lookup-plugin/releases/download/0.7.0/cf-reverse-service-lookup-plugin-windows-amd64.exe
 ```
 
 ## updating and releasing
@@ -83,7 +84,7 @@ cf install-plugin -f https://github.com/aegershman/cf-reverse-service-lookup-plu
 - `go mod tidy`
 - update the plugin version in `main.go`
 - update the `README` install-plugin section to reference the new upcoming release version
-- `git tag 0.6.0` -- or whatever version, of course
+- `git tag 0.7.0` -- or whatever version, of course
 - `git push origin --tags`
 - `export GITHUB_TOKEN="xyzabc"`
 - `goreleaser release`
