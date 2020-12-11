@@ -14,13 +14,13 @@ With this plugin, as long as you're logged into the same Cloud Foundry installat
 
 ```sh
 # get details on a service instance by it's GUID alone
-cf rsl -s 4c463943-d421-4f6f-8501-247fba95882d
+cf rsl -s 8891ec47-4041-496b-af36-10d89c9513a6
 
 # passing BOSH's default 'service-instance_' prefix is acceptable, too
-cf rsl -s service-instance_4c463943-d421-4f6f-8501-247fba95882d
+cf rsl -s service-instance_8891ec47-4041-496b-af36-10d89c9513a6
 
 # you can pass '-s service-instance_GUID' multiple times
-cf rsl -s service-instance_4c463943-d421-4f6f-8501-247fba95882d -s bbaa77df-52e7-4d6a-8c86-d07a7c93ab82
+cf rsl -s service-instance_8891ec47-4041-496b-af36-10d89c9513a6 -s bbaa77df-52e7-4d6a-8c86-d07a7c93ab82
 
 # optionally, multiple different presentation formats can be specified
 cf rsl -s xyz --format plain-text (default)
@@ -29,6 +29,15 @@ cf rsl -s xyz --format json
 
 # or both, why not
 cf rsl -s xyz --format table --format json
+```
+
+`--format plain-text`:
+
+```txt
+d6bb8908-a8f8-46b9-9c21-3069cdb939ef
+small-redis
+grundlework
+scratchpad
 ```
 
 `--format json`:

@@ -20,7 +20,8 @@ tasks:
   test:
     cmds:
       - task: install
-      - cf rsl -s db8dba61-32c7-4834-b94b-b3d61240d47b --format json | jq '.'
-      - cf rsl -s db8dba61-32c7-4834-b94b-b3d61240d47b --format table --format json
-      - cf rsl -s db8dba61-32c7-4834-b94b-b3d61240d47b -s db8dba61-32c7-4834-b94b-b3d61240d47b
+      - cf rsl -s 8891ec47-4041-496b-af36-10d89c9513a6
+      - cf rsl -s 8891ec47-4041-496b-af36-10d89c9513a6 --format json | jq '.'
+      - cf rsl -s 8891ec47-4041-496b-af36-10d89c9513a6 --format table --format plain-text --format json
+      - cf rsl -s 8891ec47-4041-496b-af36-10d89c9513a6 -s 8891ec47-4041-496b-af36-10d89c9513a6
       - task: uninstall
