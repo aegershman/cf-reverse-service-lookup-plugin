@@ -1,11 +1,15 @@
 ---
 version: 2
 updates:
-  - package-ecosystem: gomod
-    directory: "/"
+  - package-ecosystem: github-actions
+    directory: /
     schedule:
       interval: daily
-      time: "11:00"
-    open-pull-requests-limit: 10
+    commit-message:
+      prefix: "chore(ci)"
+  - package-ecosystem: gomod
+    directory: /
+    schedule:
+      interval: daily
     commit-message:
       prefix: "chore(ci)"
