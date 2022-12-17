@@ -11,7 +11,7 @@ tasks:
   install:
     cmds:
       - task: build
-      - cf install-plugin dist/darwin_darwin_amd64/cf-reverse-service-lookup-plugin -f
+      - cf install-plugin dist/darwin_darwin_amd64_v1/cf-reverse-service-lookup-plugin -f
 
   uninstall:
     cmds:
